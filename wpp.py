@@ -1,7 +1,6 @@
 from sys import argv
-import ast
+from datetime import datetime
 import pywhatkit as pwk
-import keyboard as k
 
 # Check if the correct number of command-line arguments is provided
 if len(argv) != 3:
@@ -11,7 +10,7 @@ if len(argv) != 3:
 script, filename1, filename2 = argv
 
 # Open the file for reading
-with open(filename1, 'r') as file:
+with open(filename1, 'r', encoding="utf-8") as file:
     # Initialize an empty dictionary to store the data
     data_dict = {}
     
@@ -24,13 +23,18 @@ with open(filename1, 'r') as file:
         data_dict[key] = value
 
 # Open the message template file for reading
-with open(filename2, 'r') as template_file:
+with open(filename2, 'r', encoding="utf-8") as template_file:
     # Read the message template
     message_template = template_file.read()
 
 try:
-    current_hour = 15
-    upcoming_minute = 33
+    # Get the current date and time
+    current_datetime = datetime.now()
+
+    # Extract the hour and minute
+    current_hour = current_datetime.hour
+    upcoming_minute = current_datetime.minute
+
 
 # Replace the placeholder "name" with the corresponding value from the dictionary
 
@@ -38,22 +42,26 @@ try:
         modified_message = message_template.replace('name', key)
 
         # Remove single quotes around the value
-        modified_message = modified_message.replace("'", "")
+        #modified_message = modified_message.replace("'", "")
 
         # Append the modified message to the list
-        print(modified_message, value)
+        # print(modified_message, value)
 
         upcoming_minute += 1
         contact_no = value
         message = modified_message
-        wait_time = 10 # time to wait before sending the message (minute)
+        wait_time = 15 # time to wait before sending the message (minute)
         close_tab = True # close the browser tab
-        close_time = 3 # time to close the tab (minute)
+        close_time = 10 # time to close the tab (minute)
 
-        print(contact_no, message, current_hour,
-                          upcoming_minute, wait_time, close_tab, close_time)
-        # pwk.sendwhatmsg(contact_no, message, current_hour,
-        #                   upcoming_minute, wait_time, close_tab, close_time)
+        print("Número do contato:", contact_no)
+        print("Mensagem:", message)
+        print("Hora de envio:", current_hour, ":", upcoming_minute)
+        print("Wait time:", wait_time)
+        print("Close tab:", close_tab)
+        print("Close time:", close_time)
+
+        pwk.sendwhatmsg(contact_no, message, current_hour, upcoming_minute, wait_time, close_tab, close_time)
 
         print("Message Sent!") #Prints success message in console
     # error message
