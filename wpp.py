@@ -42,10 +42,10 @@ try:
         modified_message = message_template.replace('name', key)
 
         # Remove single quotes around the value
-        #modified_message = modified_message.replace("'", "")
+        modified_message = modified_message.replace("'", "")
 
         # Append the modified message to the list
-        # print(modified_message, value)
+        print(modified_message, value)
 
         upcoming_minute += 1
         contact_no = value
@@ -56,10 +56,11 @@ try:
 
         print("Número do contato:", contact_no)
         print("Mensagem:", message)
-        print("Hora de envio:", current_hour, ":", upcoming_minute)
+        print(f"Hora de envio:, {current_hour} : {upcoming_minute}")
         print("Wait time:", wait_time)
         print("Close tab:", close_tab)
         print("Close time:", close_time)
+
 
         pwk.sendwhatmsg(contact_no, message, current_hour, upcoming_minute, wait_time, close_tab, close_time)
 
